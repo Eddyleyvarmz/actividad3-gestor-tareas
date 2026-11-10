@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gestor de tareas desarrollado con HTML, CSS y JavaScript moderno. Guarda los datos en el navegador.">
+  <title>Mi Gestor de Tareas</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-content">
+      <a class="brand" href="#inicio" aria-label="Mi Gestor de Tareas, inicio">
+        <span class="brand-icon" aria-hidden="true">✓</span>
+        <span>Task<span class="brand-accent">Flow</span></span>
+      </a>
+      <span class="storage-label"><span class="storage-dot" aria-hidden="true"></span> Guardado en este dispositivo</span>
+    </div>
+  </header>
+
+  <main class="container" id="inicio">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">ORGANIZA TU DÍA</p>
+        <h1>Mi gestor de tareas</h1>
+        <p class="subtitle">Registra tus pendientes, establece prioridades y lleva el control de tu progreso.</p>
+      </div>
+      <div class="today-card">
+        <span class="today-label">HOY</span>
+        <strong id="today-date">—</strong>
+      </div>
+    </section>
+
+    <section class="stats-grid" aria-label="Resumen de tareas">
+      <article class="stat-card">
+        <span class="stat-label">Total de tareas</span>
+        <strong class="stat-number" id="total-count">0</strong>
+        <span class="stat-note">Registradas</span>
+      </article>
+      <article class="stat-card">
+        <span class="stat-label">Pendientes</span>
+        <strong class="stat-number" id="pending-count">0</strong>
+        <span class="stat-note">Por completar</span>
+      </article>
+      <article class="stat-card">
+        <span class="stat-label">Completadas</span>
+        <strong class="stat-number" id="completed-count">0</strong>
+        <span class="stat-note">Buen trabajo</span>
+      </article>
+      <article class="stat-card progress-card">
+        <div class="progress-heading">
+          <span class="stat-label">Tu progreso</span>
+          <strong id="progress-value">0%</strong>
+        </div>
+        <div class="progress-track" role="progressbar" aria-label="Porcentaje de tareas completadas" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-bar">
+          <span id="progress-fill"></span>
+        </div>
+        <span class="stat-note">Tareas terminadas</span>
+      </article>
+    </section>
+
+    <div class="workspace">
+      <section class="panel form-panel" aria-labelledby="form-heading">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">NUEVO REGISTRO</p>
+            <h2 id="form-heading">Agregar tarea</h2>
+          </div>
+          <span class="heading-icon" aria-hidden="true">＋</span>
+        </div>
+
+        <form id="task-form" novalidate>
+          <div class="field">
+            <label for="task-title">Nombre de la tarea <span class="required">*</span></label>
+            <input id="task-title" name="title" type="text" maxlength="80" placeholder="Ej. Terminar actividad de JavaScript" required autocomplete="off">
+            <small class="field-hint">Máximo 80 caracteres.</small>
+          </div>
+
+          <div class="field">
+            <label for="task-description">Descripción</label>
+            <textarea id="task-description" name="description" rows="3" maxlength="240" placeholder="Agrega detalles (opcional)"></textarea>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="task-category">Categoría</label>
+              <select id="task-category" name="category">
+                <option value="Escuela">Escuela</option>
+                <option value="Trabajo">Trabajo</option>
+                <option value="Personal">Personal</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="task-priority">Prioridad</label>
+              <select id="task-priority" name="priority">
+                <option value="Media">Media</option>
+                <option value="Alta">Alta</option>
+                <option value="Baja">Baja</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="task-date">Fecha límite</label>
+            <input id="task-date" name="dueDate" type="date">
+          </div>
+
+          <p class="form-message" id="form-message" role="alert" aria-live="polite"></p>
+          <div class="form-actions">
+            <button class="button button-primary" type="submit" id="submit-button">Guardar tarea <span aria-hidden="true">→</span></button>
+            <button class="button button-ghost hidden" type="button" id="cancel-edit">Cancelar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel tasks-panel" aria-labelledby="tasks-heading">
+        <div class="tasks-topline">
+          <div>
+            <p class="eyebrow">TU LISTA</p>
+            <h2 id="tasks-heading">Mis tareas <span class="count-chip" id="visible-count">0</span></h2>
+          </div>
+          <button type="button" class="text-button" id="clear-completed">Eliminar completadas</button>
+        </div>
+
+        <div class="toolbar">
+          <label class="search-box" for="search-input">
+            <span aria-hidden="true">⌕</span>
+            <input id="search-input" type="search" placeholder="Buscar una tarea..." autocomplete="off">
+          </label>
+          <div class="filters">
+            <label class="sr-only" for="status-filter">Filtrar por estado</label>
+            <select id="status-filter">
+              <option value="all">Todos los estados</option>
+              <option value="pending">Pendientes</option>
+              <option value="completed">Completadas</option>
+            </select>
+            <label class="sr-only" for="category-filter">Filtrar por categoría</label>
+            <select id="category-filter">
+              <option value="all">Todas las categorías</option>
+              <option value="Escuela">Escuela</option>
+              <option value="Trabajo">Trabajo</option>
+              <option value="Personal">Personal</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="task-list" id="task-list" aria-live="polite">
+          <!-- JavaScript inserta aquí las tareas. -->
+        </div>
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon" aria-hidden="true">☷</div>
+          <h3 id="empty-title">Aún no tienes tareas</h3>
+          <p id="empty-description">Agrega tu primera tarea desde el formulario para comenzar.</p>
+        </div>
+        <p class="list-footnote" id="list-footnote">Tus cambios se guardan automáticamente en este navegador.</p>
+      </section>
+    </div>
+
+    <footer class="page-footer">
+      <span>Proyecto académico · JavaScript ES6+</span>
+      <span>HTML · CSS · localStorage</span>
+    </footer>
+  </main>
+
+  <noscript>Para utilizar el gestor de tareas necesitas activar JavaScript en tu navegador.</noscript>
+</body>
+</html>
