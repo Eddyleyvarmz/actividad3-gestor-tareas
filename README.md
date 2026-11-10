@@ -117,7 +117,8 @@ Antes del último comando, crea un repositorio vacío en GitHub y reemplaza `USU
 
 ## 10. Autor
 
-- **Estudiante:** [Escribe tu nombre]
-- **Materia:** [Escribe el nombre de la materia]
+- **Estudiante:** Edgar Eduardo Leyva Ramirez
+- **Matricula** 1939283
+- **Materia:** LAB Porgramacion WEB
 - **Actividad:** Actividad 3. Aplicación interactiva con JavaScript moderno
-- **Fecha:** [Escribe la fecha de entrega]
+- **Fecha:** 09/11/2026
